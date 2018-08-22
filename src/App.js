@@ -3,22 +3,19 @@ import logo from './logo.svg';
 import './App.css';
 
 import Page1 from './components/Page1';
-
+import AsyncComponent from './components/AsyncComponent';
 
 class App extends Component {
   constructor() {
     super();
     this.state = {
       route: 'page1',
-      component: ''
+      component: null
     }
   }
   onRouteChange = (route) => {
-    // No Code Splitting
-    // this.setState({route: route});
-
-    // With Code Splitting
-    if (route === 'page1') {
+    this.setState({route: route});
+    /*     if (route === 'page1') {
       this.setState({ route: route});
     } else if (route === 'page2'){
       import ('./components/Page2').then((Page2) => {
@@ -30,23 +27,25 @@ class App extends Component {
         this.setState({ route: route, component: Page3.default});
       });
     }
+ */
   }
 
   render() {
-/*     if (this.state.route === 'page1') {
+    if (this.state.route === 'page1') {
       return <Page1 onRouteChange={this.onRouteChange}/>;
     } else if (this.state.route === 'page2') {
-      return <Page2 onRouteChange={this.onRouteChange}/>;
+      const AsyncPage2 = AsyncComponent(() => import('./components/Page2'));
+      return <AsyncPage2 onRouteChange={this.onRouteChange}/>;
     } else if (this.state.route === 'page3') {
-      return  <Page3 onRouteChange={this.onRouteChange}/>;
+      const AsyncPage3 = AsyncComponent(() => import('./components/Page3'));
+      return  <AsyncPage3 onRouteChange={this.onRouteChange}/>;
     }
- */
-    if (this.state.route === 'page1') {
+/*     if (this.state.route === 'page1') {
       return <Page1 onRouteChange={this.onRouteChange}/>;
     } else {
       return <this.state.component onRouteChange={this.onRouteChange} />
     }
-  }
+ */  }
 }
 
 export default App;
